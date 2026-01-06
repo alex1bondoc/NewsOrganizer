@@ -1,4 +1,0 @@
-3
-../../files/languages.txt
-../../files/categories.txt
-../../files/english_linking_words.txt
