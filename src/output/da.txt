@@ -1,0 +1,287 @@
+import com.fasterxml.jackson.databind.JsonNode;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+
+import java.io.*;
+
+import java.util.*;
+
+
+public class Tema1 {
+
+    public static void main(String[] args) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+// Structuri de date
+        HashMap<String, ArrayList<Article>> articles_uuid = new HashMap<>();
+        HashMap<String, ArrayList<Article>> articles_title = new HashMap<>();
+        HashMap<String, ArrayList<Article>> authors = new HashMap<>();
+        authors.put("", new ArrayList<>());
+        HashMap<String, ArrayList<Article>> languages = new HashMap<>();
+        languages.put("", new ArrayList<>());
+        ArrayList<String> categoryList = new ArrayList<>();
+        HashMap<String, ArrayList<Article>> categories = new HashMap<>();
+        categories.put("", new ArrayList<>());
+        HashMap<String, Integer> words = new HashMap<>();
+        ArrayList<String> banned_words = new ArrayList<>();
+        ArrayList<String> articles = new ArrayList<>();
+// Variabile statistice
+        int duplicates = 0;
+        int total = 0;
+        String best_language = "";
+        String best_category = "";
+        String best_word = "";
+        Article most_recent = null;
+// Citire argumente
+        int P = Integer.parseInt(args[0]);
+        String A = args[1];
+        String I = args[2];
+// Calcul path relativ
+// --- PASUL 1: Citirea listei de articole ---
+        File arts = new File(A);
+        String path = arts.getParent() + "/";
+        Scanner reader = new Scanner(arts);
+        while (reader.hasNextLine()) {
+            String integerLine = reader.nextLine().strip();
+            if (integerLine.isEmpty()) continue;
+            int N = Integer.parseInt(integerLine);
+            while (N > 0 && reader.hasNextLine()) {
+                String line = reader.nextLine().strip();
+                articles.add(line);
+                N--;
+            }
+        }
+        reader.close();
+// --- PASUL 2: Citirea fișierelor de configurare ---
+        arts = new File(I);
+        reader = new Scanner(arts);
+        while (reader.hasNextLine()) {
+            String lineN = reader.nextLine().strip();
+            if (lineN.isEmpty()) continue;
+            int n = Integer.parseInt(lineN);
+            while (n > 0 && reader.hasNextLine()) {
+                String line = reader.nextLine().strip();
+                File file = new File(path + line);
+                if (file.exists()) {
+                    Scanner fileReader = new Scanner(file);
+                    if (fileReader.hasNextLine()) {
+                        int x = Integer.parseInt(fileReader.nextLine());
+                        while (x > 0 && fileReader.hasNextLine()) {
+                            String thing = fileReader.nextLine().strip();
+                            if (line.contains("languages.txt"))
+                                languages.put(thing, new ArrayList<>());
+                            else if (line.contains("categories.txt")) {
+                                categories.put(thing, new ArrayList<>()); // Aici populăm doar categoriile VALID
+                                categoryList.add(thing);
+                            } else if (line.contains("english_linking_words.txt"))
+                                banned_words.add(thing);
+                            x--;
+                        }
+                    }
+                    fileReader.close();
+                }
+                n--;
+            }
+        }
+        reader.close();
+// --- PASUL 3: Procesarea JSON-urilor ---
+        for (String article : articles) {
+            File jsonFile = new File(path + article);
+            if (!jsonFile.exists()) continue;
+            ArrayNode articleArray = (ArrayNode) mapper.readTree(jsonFile);
+            for (JsonNode articleNode : articleArray) {
+                total++;
+// Extragere categorii
+                ArrayNode aux = (ArrayNode) articleNode.get("categories");
+                String[] categoriesaux = new String[aux.size()];
+                int i = 0;
+                for (JsonNode categoryNode : aux) {
+                    categoriesaux[i] = categoryNode.asText();
+                    i++;
+                }
+                Article articleObj = new Article(
+                        articleNode.get("uuid").asText(),
+                        articleNode.get("title").asText(),
+                        articleNode.get("author").asText(),
+                        articleNode.get("url").asText(),
+                        articleNode.get("text").asText(),
+                        articleNode.get("published").asText(),
+                        articleNode.get("language").asText(),
+                        categoriesaux
+                );
+                articles_title.computeIfAbsent(articleObj.getTitle(), k -> new ArrayList<>()).add(articleObj);
+                articles_uuid.computeIfAbsent(articleObj.getId(), k -> new ArrayList<>()).add(articleObj);
+            }
+        }
+// --- PASUL 4: Analiza Articolelor Unice ---
+        ArrayList<Article> unique_articles = new ArrayList<>();
+        for (String articleTitle : articles_title.keySet()) {
+            ArrayList<Article> listByTitle = articles_title.get(articleTitle);
+            if (listByTitle.size() != 1) continue;
+            Article articol = listByTitle.get(0);
+            if (articles_uuid.get(articol.getId()).size() != 1) continue;
+// Este unic
+            unique_articles.add(articol);
+// A. Cel mai recent articol
+            if (most_recent == null) {
+                most_recent = articol;
+            } else {
+                int dateComp = articol.getPublished().compareTo(most_recent.getPublished());
+                if (dateComp > 0) {
+                    most_recent = articol;
+                } else if (dateComp == 0 && articol.getId().compareTo(most_recent.getId()) < 0) {
+                    most_recent = articol;
+                }
+            }
+// B. Procesare Limbi
+            if (languages.containsKey(articol.getLanguage())) {
+                languages.get(articol.getLanguage()).add(articol);
+                int currentSize = languages.get(articol.getLanguage()).size();
+                int bestSize = languages.get(best_language).size();
+                if (currentSize > bestSize) {
+                    best_language = articol.getLanguage();
+                } else if (currentSize == bestSize) {
+                    if (articol.getLanguage().compareTo(best_language) < 0) {
+                        best_language = articol.getLanguage();
+                    }
+                }
+            }
+// C. Procesare Categorii (Logica Strictă)
+            boolean allCategoriesValid = true;
+            ArrayList<String> auxiliar = new ArrayList<>();
+            for (String s : articol.getCategory()) {
+                if (auxiliar.contains(s)) continue;
+                else auxiliar.add(s);
+            }
+// Pasul C1: Verificăm dacă TOATE categoriile articolului sunt cunoscute
+            for (String categ : auxiliar) {
+                if (!categoryList.contains(categ)) {
+                    allCategoriesValid = false;
+                }
+            }
+// Pasul C2: Adăugăm articolul DOAR dacă a trecut validarea completă
+            if (allCategoriesValid) {
+                for (String categ : auxiliar) {
+// Adăugăm la lista existentă (știm sigur că există cheia din validarea de mai sus)
+                    categories.get(categ).add(articol);
+// Actualizare Best Category
+                    int currentSize = categories.get(categ).size();
+                    int bestSize = categories.get(best_category).size();
+                    if (currentSize > bestSize) {
+                        best_category = categ;
+                    } else if (currentSize == bestSize) {
+                        if (best_category.equals("") || categ.compareTo(best_category) < 0)
+                            best_category = categ;
+                    }
+                }
+            }
+// D. Procesare Autori
+            authors.computeIfAbsent(articol.getAuthor(), k -> new ArrayList<>()).add(articol);
+// E. Procesare Cuvinte
+            if (!articol.getLanguage().equals("english")) continue;
+            String[] rawWords = articol.getText().toLowerCase().split("\\s+");
+            HashSet<String> processedWordsInThisArticle = new HashSet<>();
+            for (String s : rawWords) {
+                String cleanWord = s.replaceAll("[^a-z]", "");
+                if (cleanWord.isEmpty() || banned_words.contains(cleanWord)) {
+                    continue;
+                }
+                if (!processedWordsInThisArticle.contains(cleanWord)) {
+                    processedWordsInThisArticle.add(cleanWord);
+                    int newVal = words.getOrDefault(cleanWord, 0) + 1;
+                    words.put(cleanWord, newVal);
+                    if (newVal > words.getOrDefault(best_word, 0)) {
+                        best_word = cleanWord;
+                    } else if (newVal == words.getOrDefault(best_word, 0)) {
+                        if (best_word.equals("") || cleanWord.compareTo(best_word) < 0) {
+                            best_word = cleanWord;
+                        }
+                    }
+                }
+            }
+        }
+        File outputDir = new File("output");
+        if (!outputDir.exists()) outputDir.mkdir();
+// --- SCRIERE 1: all_articles.txt ---
+        Collections.sort(unique_articles, (a1, a2) -> {
+            int dateComp = a2.getPublished().compareTo(a1.getPublished());
+            if (dateComp == 0) {
+                return a1.getId().compareTo(a2.getId());
+            }
+            return dateComp;
+        });
+        BufferedWriter bw = new BufferedWriter(new FileWriter("all_articles.txt"));
+        for (Article article : unique_articles) {
+            bw.write(article.getId() + " " + article.getPublished() + "\n");
+        }
+        bw.close();
+// --- SCRIERE 2: Fișiere Limbi ---
+        for (String language : languages.keySet()) {
+            if (language == null || language.isEmpty() || languages.get(language).isEmpty()) continue;
+            Collections.sort(languages.get(language), (a1, a2) -> a1.getId().compareTo(a2.getId()));
+            bw = new BufferedWriter(new FileWriter(language + ".txt"));
+            for (Article article : languages.get(language)) {
+                bw.write(article.getId() + "\n");
+            }
+            bw.close();
+        }
+// --- SCRIERE 3: Fișiere Categorii ---
+        for (String categ : categories.keySet()) {
+// Scriem doar dacă categoria e validă și are articole
+            if (categ == null || categ.isEmpty() || categories.get(categ).isEmpty()) continue;
+            Collections.sort(categories.get(categ), (a1, a2) -> a1.getId().compareTo(a2.getId()));
+            String filename = categ.replaceAll("[^a-zA-Z]+", "_");
+            bw = new BufferedWriter(new FileWriter((filename + ".txt").strip()));
+            for (Article article : categories.get(categ)) {
+                bw.write(article.getId() + "\n");
+            }
+            bw.close();
+        }
+// --- SCRIERE 4: keyword_count.txt ---
+        bw = new BufferedWriter(new FileWriter("keywords_count.txt"));
+        List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(words.entrySet());
+        sortedList.sort((entry1, entry2) -> {
+            int compareCounts = entry2.getValue().compareTo(entry1.getValue());
+            if (compareCounts == 0) {
+                return entry1.getKey().compareTo(entry2.getKey());
+            }
+            return compareCounts;
+        });
+        for (Map.Entry<String, Integer> entry : sortedList) {
+            bw.write(entry.getKey() + " " + entry.getValue() + "\n");
+        }
+        bw.close();
+// --- SCRIERE 5: reports.txt ---
+        duplicates = total - unique_articles.size();
+        String best_author = "";
+        for (String author : authors.keySet()) {
+            if (author.isEmpty()) continue;
+            int currentSize = authors.get(author).size();
+            int bestSize = authors.get(best_author).size();
+            if (currentSize > bestSize) {
+                best_author = author;
+            } else if (currentSize == bestSize) {
+                if (best_author.equals("") || author.compareTo(best_author) < 0) {
+                    best_author = author;
+                }
+            }
+        }
+        bw = new BufferedWriter(new FileWriter("reports.txt"));
+        bw.write("duplicates_found - " + duplicates + "\n");
+        bw.write("unique_articles - " + unique_articles.size() + "\n");
+        bw.write("best_author - " + best_author + " " + authors.get(best_author).size() + "\n");
+        bw.write("top_language - " + best_language + " " + languages.get(best_language).size() + "\n");
+        bw.write("top_category - " + best_category.replaceAll("[ ,]+", "_") + " " + categories.get(best_category).size() + "\n");
+        if (most_recent != null) {
+            bw.write("most_recent_article - " + most_recent.getPublished() + " " + most_recent.getUrl() + "\n");
+        } else {
+            bw.write("most_recent_article - null null\n");
+        }
+        bw.write("top_keyword_en - " + best_word + " " + words.getOrDefault(best_word, 0) + "\n");
+        bw.close();
+
+    }
+
+}
