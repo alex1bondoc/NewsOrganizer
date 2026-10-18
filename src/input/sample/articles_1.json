@@ -1,0 +1,526 @@
+[
+  {
+    "uuid": "e4fd6c34-d670-7a21-29dc-073e5820b3f2",
+    "title": "Sample article 40",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/40",
+    "published": "2025-08-10T23:53:00Z",
+    "language": "english",
+    "text": "On to with to economy economy study technology for new the to the team economy and in music with festival and city for was the storm hospital hospital the city in growth in music launch the economy storm is data.",
+    "categories": [
+      "Health"
+    ]
+  },
+  {
+    "uuid": "7885187d-18fc-83b7-4b35-6e9a2e5eeb6a",
+    "title": "Sample article 41",
+    "author": "John Smith",
+    "url": "https://example.com/news/41",
+    "published": "2025-08-01T23:16:00Z",
+    "language": "french",
+    "text": "Science in in to was report climate on in team to players is music hospital for market report with technology to is study to launch climate health on new the to festival growth science with in is with storm was.",
+    "categories": [
+      "Weather"
+    ]
+  },
+  {
+    "uuid": "7d7c59a5-e6c1-1650-ff02-f5b057bd56c9",
+    "title": "Sample article 42",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/42",
+    "published": "2025-08-06T06:10:00Z",
+    "language": "english",
+    "text": "Health to new science energy launch technology city report team climate city science is storm is storm growth study storm storm research festival for economy growth data with was report health data energy science research to is on festival of.",
+    "categories": [
+      "Arts, Culture and Entertainment",
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "1dabb10a-bd10-f87c-6d0e-0597500d92a7",
+    "title": "Sample article 43",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/43",
+    "published": "2025-08-04T01:00:00Z",
+    "language": "english",
+    "text": "Market storm launch for to on growth the energy players study climate report to energy to of energy technology energy is city was with to rain city is market research on of was energy in team growth storm to report.",
+    "categories": [
+      "Weather"
+    ]
+  },
+  {
+    "uuid": "cd1f75a3-71b6-5ca1-7587-3920142e3df0",
+    "title": "Sample article 44",
+    "author": "Ana Costa",
+    "url": "https://example.com/news/44",
+    "published": "2025-08-11T14:05:00Z",
+    "language": "english",
+    "text": "Music to and new players music players is of growth of science science of with of economy festival research new report science in with technology report is report of was on launch was is and with study health players health.",
+    "categories": [
+      "Human Interest",
+      "Health"
+    ]
+  },
+  {
+    "uuid": "6b2d9ccc-6279-403c-e1a2-cfe7810d5c57",
+    "title": "Sample article 45",
+    "author": "Ana Costa",
+    "url": "https://example.com/news/45",
+    "published": "2025-08-02T22:48:00Z",
+    "language": "portuguese",
+    "text": "The festival rain research on was launch with growth is technology report music report new launch to data the is festival technology energy for city and the on music science of the growth festival is of of of report with.",
+    "categories": [
+      "Health"
+    ]
+  },
+  {
+    "uuid": "318910ec-f6db-b2b6-b993-ff63c6b18d94",
+    "title": "Sample article 46",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/46",
+    "published": "2025-08-07T14:11:00Z",
+    "language": "english",
+    "text": "Is of hospital rain was in team of of launch energy was science for was festival was players report study of to growth to rain music report in was hospital to the for report rain study music with was in.",
+    "categories": [
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "89aa4293-34a0-dcd4-1a9a-f29ed5ee2587",
+    "title": "Sample article 47",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/47",
+    "published": "2025-08-03T20:52:00Z",
+    "language": "english",
+    "text": "Festival study science the climate new launch to science research with storm hospital rain research city with city on rain the data launch on growth with energy rain the with hospital growth launch hospital energy rain launch report in for.",
+    "categories": [
+      "Weather"
+    ]
+  },
+  {
+    "uuid": "7cb882a0-94a1-eab0-b9c0-37aa3289f58b",
+    "title": "Sample article 48",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/48",
+    "published": "2025-08-11T11:08:00Z",
+    "language": "english",
+    "text": "New research study science to music for players was technology science research hospital report research music report storm climate was launch report with the rain growth technology rain to data launch of health to storm on was rain report energy.",
+    "categories": [
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "3b53f64b-7cd6-1da4-c2ef-da8b38048786",
+    "title": "Sample article 49",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/49",
+    "published": "2025-08-05T08:23:00Z",
+    "language": "english",
+    "text": "With new to of data for new health for data new is team energy technology study of in launch research was on science growth rain was climate health on to hospital players market on was storm science of is the.",
+    "categories": [
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "99d090fd-6928-043e-d492-b51a38283a05",
+    "title": "Sample article 50",
+    "author": "John Smith",
+    "url": "https://example.com/news/50",
+    "published": "2025-08-11T18:52:00Z",
+    "language": "english",
+    "text": "Data music the with hospital to to science launch science and players in data with economy the climate health launch climate data and for and economy science festival growth science launch science storm storm players science to in economy of.",
+    "categories": [
+      "Science and Technology"
+    ]
+  },
+  {
+    "uuid": "b49b4b72-c631-9c16-5827-bc1d93e0f235",
+    "title": "Sample article 51",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/51",
+    "published": "2025-08-11T23:08:00Z",
+    "language": "english",
+    "text": "Report music research players market hospital of of technology rain energy report technology market for data was economy for science climate health and rain city market energy players with energy launch study for technology report city rain data economy team.",
+    "categories": [
+      "Weather"
+    ]
+  },
+  {
+    "uuid": "8366c189-cd8d-9f75-1df4-4d3ef26f9b19",
+    "title": "Sample article 52",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/52",
+    "published": "2025-08-04T17:52:00Z",
+    "language": "portuguese",
+    "text": "Of hospital new on the launch research is for study research for for was technology storm is report was growth was health the launch storm study with for hospital research was rain with study city players study hospital research new.",
+    "categories": [
+      "Weather",
+      "Human Interest"
+    ]
+  },
+  {
+    "uuid": "61223189-35f3-de4a-ac92-04b40306a258",
+    "title": "Sample article 53",
+    "author": "Ana Costa",
+    "url": "https://example.com/news/53",
+    "published": "2025-08-07T03:20:00Z",
+    "language": "portuguese",
+    "text": "With is on is research health in for was study research new storm data science report in city health in health with energy research is was is new science is hospital health of festival rain data report is was market.",
+    "categories": [
+      "Science and Technology",
+      "Health"
+    ]
+  },
+  {
+    "uuid": "a72bdddd-511e-eeb8-5040-5c433a6c7da6",
+    "title": "Sample article 54",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/54",
+    "published": "2025-08-03T22:17:00Z",
+    "language": "english",
+    "text": "Economy with economy festival with players storm science and in players climate market economy launch new to science energy the study launch new data study festival report in launch of to report music for is of with technology research new.",
+    "categories": [
+      "Health",
+      "Human Interest"
+    ]
+  },
+  {
+    "uuid": "8c57a277-01d9-09b4-cbf8-f29e3b30ee97",
+    "title": "Sample article 55",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/55",
+    "published": "2025-08-13T06:26:00Z",
+    "language": "english",
+    "text": "Was for market health and players research is market was and technology launch for health is of storm report new is was was rain technology launch for launch data health is festival team hospital of economy economy is festival on.",
+    "categories": [
+      "Human Interest",
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "f9287d26-37c0-f87a-aaac-826edd18ab28",
+    "title": "Sample article 56",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/56",
+    "published": "2025-08-03T07:40:00Z",
+    "language": "french",
+    "text": "In festival was on to rain for research team music to is market rain energy climate the climate city team is is the climate players economy study the health music growth energy city report with growth was study team growth.",
+    "categories": [
+      "Health",
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "1c4760a5-5270-2b29-a412-47a268e8f311",
+    "title": "Sample article 57",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/57",
+    "published": "2025-08-03T16:42:00Z",
+    "language": "english",
+    "text": "Players the on is of research economy technology launch data was of new with is the with to is was economy storm new to on was hospital team was market was storm on on research was in economy of with.",
+    "categories": [
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "728f5897-73d0-b6c7-f62e-cf885c29850b",
+    "title": "Sample article 58",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/58",
+    "published": "2025-08-14T00:46:00Z",
+    "language": "english",
+    "text": "Growth economy growth players was on data research city and launch rain for the to research and was health city report launch was for on music for of was new was is with new for for with on players to.",
+    "categories": [
+      "Health"
+    ]
+  },
+  {
+    "uuid": "2160446e-b2a7-a475-c619-67736f3acf33",
+    "title": "Sample article 59",
+    "author": "John Smith",
+    "url": "https://example.com/news/59",
+    "published": "2025-08-10T15:35:00Z",
+    "language": "english",
+    "text": "Team health new study was science growth climate data in team players city with of science and team science growth with festival energy in on for hospital rain new health report for on research team of research growth study hospital.",
+    "categories": [
+      "Human Interest"
+    ]
+  },
+  {
+    "uuid": "802aa6eb-32e9-7c2d-2fb9-0ccf168885c2",
+    "title": "Sample article 60",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/60",
+    "published": "2025-08-07T17:59:00Z",
+    "language": "english",
+    "text": "Hospital research festival science report data new launch team data is is health data research growth technology to energy economy city in hospital was climate the report study team technology music the report report energy launch players energy is was.",
+    "categories": [
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "14588063-5bf8-8d1d-06ad-7920aff7ff5d",
+    "title": "Sample article 61",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/61",
+    "published": "2025-08-04T04:32:00Z",
+    "language": "english",
+    "text": "Players the data team hospital growth for the to new of players report in science team with climate climate report of hospital for of on with rain and climate with for to launch to city storm technology on health health.",
+    "categories": [
+      "Weather",
+      "Health"
+    ]
+  },
+  {
+    "uuid": "17584f23-1fa0-9802-bbb7-1494b7e767d4",
+    "title": "Sample article 62",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/62",
+    "published": "2025-08-03T22:28:00Z",
+    "language": "french",
+    "text": "Climate health market for report in music is is for growth for for on hospital the music growth in players the hospital the music team to festival growth of launch hospital science was festival market science in and launch of.",
+    "categories": [
+      "Arts, Culture and Entertainment",
+      "Science and Technology"
+    ]
+  },
+  {
+    "uuid": "6d651847-c229-4116-1152-9a73d1fcdedd",
+    "title": "Sample article 63",
+    "author": "Ana Costa",
+    "url": "https://example.com/news/63",
+    "published": "2025-08-12T02:18:00Z",
+    "language": "french",
+    "text": "Was of players storm on of climate growth team is storm climate the to economy was on in report festival technology in to was in climate data growth on research festival of on on rain music with and with players.",
+    "categories": [
+      "Economy, Business and Finance",
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "90a014ab-4ca1-cabd-8565-0e0bd5c97d5d",
+    "title": "Sample article 64",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/64",
+    "published": "2025-08-12T17:34:00Z",
+    "language": "english",
+    "text": "Festival city and launch research technology to new science with on hospital is storm in in market energy in for new launch launch team research hospital market new science the in new is the is music was is for the.",
+    "categories": [
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "9f795228-f553-0567-03e7-dd211d4d46d6",
+    "title": "Sample article 65",
+    "author": "Ana Costa",
+    "url": "https://example.com/news/65",
+    "published": "2025-08-10T16:06:00Z",
+    "language": "english",
+    "text": "With climate market players of players energy to with to economy with team team data in is economy of economy was new energy was of growth hospital team on with growth report the team in city rain music to study.",
+    "categories": [
+      "Science and Technology"
+    ]
+  },
+  {
+    "uuid": "2c4f5416-3c74-9c16-b1b2-b5f88b661d1f",
+    "title": "Sample article 66",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/66",
+    "published": "2025-08-06T23:59:00Z",
+    "language": "english",
+    "text": "Team storm technology was climate report players festival technology is to city was music research is team is health technology data report new market energy music to on hospital energy launch team players health was economy new science festival new.",
+    "categories": [
+      "Arts, Culture and Entertainment",
+      "Science and Technology"
+    ]
+  },
+  {
+    "uuid": "ce52309d-a46a-07c2-2320-de1615ac80e4",
+    "title": "Sample article 67",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/67",
+    "published": "2025-08-10T14:57:00Z",
+    "language": "portuguese",
+    "text": "Energy of players energy on for launch and climate the of team science city with report festival with on hospital climate the rain the with team in science new for rain storm city data of report market market economy of.",
+    "categories": [
+      "Science and Technology",
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "7257dcb6-a8be-6c80-26b0-d2c9bd2cf4eb",
+    "title": "Sample article 68",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/68",
+    "published": "2025-08-08T05:16:00Z",
+    "language": "french",
+    "text": "Music health technology economy in to rain growth on data economy and hospital to research technology economy and was to with market hospital on for team growth on on launch storm report on economy hospital study technology study energy on.",
+    "categories": [
+      "Human Interest"
+    ]
+  },
+  {
+    "uuid": "21419a14-9acc-b00d-db3f-b4a2161d6acf",
+    "title": "Sample article 69",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/69",
+    "published": "2025-08-03T21:48:00Z",
+    "language": "english",
+    "text": "Research on of for in of data study and music team rain report is hospital the music new the rain for to study to for report on was storm market and energy report health to market the in and and.",
+    "categories": [
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "b225574e-4c82-c445-30e5-9543a925de85",
+    "title": "Sample article 70",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/70",
+    "published": "2025-08-12T03:40:00Z",
+    "language": "english",
+    "text": "Music and to with research growth new to to research city of and festival launch music and research study the of the for new on economy players and market economy rain with team launch and new music to of players.",
+    "categories": [
+      "Human Interest",
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "22249813-0a6b-3e3d-94fd-0594ecf91245",
+    "title": "Sample article 71",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/71",
+    "published": "2025-08-11T20:39:00Z",
+    "language": "portuguese",
+    "text": "Of market on players rain is music the growth growth city was report was science research climate market technology launch storm to and storm and and technology in city report energy on new in on research climate of was health.",
+    "categories": [
+      "Economy, Business and Finance",
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "12d2d7e6-387d-5add-e430-81aa6022e3ff",
+    "title": "Sample article 72",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/72",
+    "published": "2025-08-08T18:31:00Z",
+    "language": "english",
+    "text": "Storm on for is in study festival storm the economy and to market city hospital on rain music in city climate is storm the data festival technology is growth of market energy health on festival report in with health in.",
+    "categories": [
+      "Human Interest"
+    ]
+  },
+  {
+    "uuid": "5ed3e00e-df1e-04cb-ca34-2e3c2f589a81",
+    "title": "Sample article 73",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/73",
+    "published": "2025-08-03T22:40:00Z",
+    "language": "english",
+    "text": "Is data city to climate science climate music storm in on launch of rain and hospital city music festival in festival science on for the was hospital energy health market for of health and report music on music climate for.",
+    "categories": [
+      "Weather"
+    ]
+  },
+  {
+    "uuid": "bcda835f-71a0-cff8-6b8d-a34058c158e2",
+    "title": "Sample article 74",
+    "author": "Jane Doe",
+    "url": "https://example.com/news/74",
+    "published": "2025-08-02T09:12:00Z",
+    "language": "french",
+    "text": "With team study on city and with the report growth data growth storm and city new energy on in in study festival research music hospital is was is and music players to and study climate city launch festival was is.",
+    "categories": [
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "3869d3c9-d743-b5a8-9e15-ebcc66d137f6",
+    "title": "Sample article 75",
+    "author": "Pierre Martin",
+    "url": "https://example.com/news/75",
+    "published": "2025-08-14T11:05:00Z",
+    "language": "english",
+    "text": "Was for launch with report was team team study data the team storm of to storm of energy new music storm growth with music storm energy for of with rain with to team on on is energy the rain market.",
+    "categories": [
+      "Arts, Culture and Entertainment",
+      "Science and Technology"
+    ]
+  },
+  {
+    "uuid": "b0167db8-e823-9943-7dec-46052deb57f9",
+    "title": "Sample article 76",
+    "author": "John Smith",
+    "url": "https://example.com/news/76",
+    "published": "2025-08-11T00:07:00Z",
+    "language": "english",
+    "text": "Health to research music and for new was with festival data data music and music for to festival for science climate economy was and on and launch for music of players economy team to music market team is report for.",
+    "categories": [
+      "Human Interest",
+      "Arts, Culture and Entertainment"
+    ]
+  },
+  {
+    "uuid": "b1b9fd9d-db58-3dd9-20f3-6e9238ec71aa",
+    "title": "Sample article 77",
+    "author": "John Smith",
+    "url": "https://example.com/news/77",
+    "published": "2025-08-10T22:14:00Z",
+    "language": "english",
+    "text": "Science study is and science study growth music of growth festival with team research launch energy storm new to data science climate hospital economy storm climate city was was was and research climate is data music on new team energy.",
+    "categories": [
+      "Economy, Business and Finance",
+      "Weather"
+    ]
+  },
+  {
+    "uuid": "71a71782-d751-af9c-f9e6-debbafe2487f",
+    "title": "Sample article 78",
+    "author": "John Smith",
+    "url": "https://example.com/news/78",
+    "published": "2025-08-03T17:26:00Z",
+    "language": "english",
+    "text": "Energy economy the growth was economy study team and on city data climate to with hospital on science science was city of was energy was is science report of for hospital energy with energy economy to growth economy team team.",
+    "categories": [
+      "Human Interest",
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "2d474c4f-0869-7ffa-0936-0f0275ac0819",
+    "title": "Sample article 79",
+    "author": "Ana Costa",
+    "url": "https://example.com/news/79",
+    "published": "2025-08-14T21:55:00Z",
+    "language": "english",
+    "text": "Is with report energy hospital and players science of city technology for festival to on launch with technology is climate and economy launch the growth is of report team and was is report hospital new was growth and new is.",
+    "categories": [
+      "Weather",
+      "Economy, Business and Finance"
+    ]
+  },
+  {
+    "uuid": "6e068097-25e9-7977-8d72-48e2951f58d0",
+    "title": "Sample article 3",
+    "author": "John Smith",
+    "url": "https://example.com/news/3",
+    "published": "2025-08-02T01:19:00Z",
+    "language": "english",
+    "text": "In science technology research science new in with players launch new and technology and city climate and with music to was rain report climate energy of technology new launch was growth festival the climate to music festival energy climate data.",
+    "categories": [
+      "Arts, Culture and Entertainment",
+      "Health"
+    ]
+  },
+  {
+    "uuid": "4ffd5b7a-226d-d24f-6e41-1e237dd19b8f",
+    "title": "Sample article 7",
+    "author": "Maria Silva",
+    "url": "https://example.com/news/7",
+    "published": "2025-08-12T03:47:00Z",
+    "language": "english",
+    "text": "On on with report hospital the is data is for hospital to was is science health and music music report market new city study technology to hospital and festival health is market health health science rain festival was music study.",
+    "categories": [
+      "Economy, Business and Finance"
+    ]
+  }
+]

@@ -1,8 +1,8 @@
 import java.util.Set;
 
 
-// clasa pentru a retine date despre articole
-// comparable pentru a putea folosi Collections.sort
+// article model
+// Comparable so articles can be sorted by publish date (newest first), then by uuid
 public class Article implements Comparable<Article> {
     private String uuid;
     private String title;
@@ -28,7 +28,7 @@ public class Article implements Comparable<Article> {
     public String getUuid() { return uuid; }
     public String getTitle() { return title; }
     public String getPublished() { return published; }
-    public String getUrl() { return url; } // Ai nevoie de URL pentru output
+    public String getUrl() { return url; }
     public String getText() { return text; }
     public String getLanguage() { return language; }
     public Set<String> getCategory() { return category; }
@@ -41,12 +41,12 @@ public class Article implements Comparable<Article> {
 
     @Override
     public int compareTo(Article other) {
-        // comparam data de publicare
+        // newest first
         int dateComp = other.getPublished().compareTo(this.published);
         if (dateComp != 0) {
             return dateComp;
         }
-        // daca sunt egale datele comparam uuid
+        // tie-break on uuid
         return this.uuid.compareTo(other.getUuid());
     }
 }

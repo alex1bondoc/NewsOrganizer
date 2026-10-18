@@ -1,103 +1,124 @@
 # NewsOrganizer
 
-Parallel processing of a large set of news articles (JSON) in Java: duplicate removal, grouping by category and language, keyword counting and generation of a final report.
+![Java](https://img.shields.io/badge/Java-17%2B-orange?logo=openjdk)
+![Concurrency](https://img.shields.io/badge/concurrency-java.util.concurrent-blue)
+![Jackson](https://img.shields.io/badge/JSON-Jackson%202.20-lightgrey)
+
+A multithreaded Java engine that processes large collections of news articles stored as JSON. It removes duplicates, groups articles by category and language, counts keyword frequencies, and writes a summary report.
+
+On the full dataset (**~17,700 articles, 16,571 unique**), it runs **2.46x faster on 8 threads** than on 1, and the output is identical for every thread count.
+
+## Features
+
+- **Duplicate detection** by UUID and by title, using lock-free `putIfAbsent` on `ConcurrentHashMap`
+- **Grouping** of articles by category and by language, one output file per group
+- **Keyword frequency analysis** for English articles: tokenization, normalization and stop-word filtering (140 linking words)
+- **Summary report**: duplicate count, top author, top language, top category, most recent article, top keyword
+- **Deterministic output**: the results are the same for any number of threads
+
+## Architecture
+
+Processing runs in four stages separated by a `CyclicBarrier`. No thread starts a stage until every thread has finished the previous one.
+
+```mermaid
+flowchart LR
+    A[Parse JSON files<br/>main thread] --> B[Stage 1<br/>Duplicate detection<br/>static partitioning]
+    B -->|barrier| C[Stage 2<br/>Article processing<br/>thread-local counts, then merge]
+    C -->|barrier| D[Stage 3<br/>Report precomputation<br/>4 tasks split across threads]
+    D --> E[Stage 4<br/>Output writing<br/>dynamic work queue]
+```
+
+1. **Duplicate detection.** The parsed files are split evenly across threads (`start = id * n/P`). Each thread registers UUIDs and titles in concurrent maps, and collisions are recorded as duplicates.
+2. **Article processing.** Threads skip duplicates and index the remaining articles by category, language and author. Word and author counts are first collected in **thread-local `HashMap`s** and then merged into the shared `ConcurrentHashMap<String, AtomicInteger>`, which keeps contention low on the hot path.
+3. **Report precomputation.** The four aggregations (totals plus most recent article, top category, top language, top author) are divided among threads. Per-thread partial results are combined without locks.
+4. **Output writing.** Write tasks go into an `ArrayBlockingQueue`, and threads pull them dynamically, because file sizes vary a lot. The most expensive tasks (`keywords_count.txt`, `all_articles.txt`) are queued first, so the long tasks start early instead of finishing last.
+
+### Concurrency primitives
+
+| Primitive | Used for |
+|---|---|
+| `ConcurrentHashMap` / `ConcurrentHashMap.newKeySet()` | article index, duplicates, authors, languages, categories, words |
+| `AtomicInteger` | shared occurrence counters |
+| `Collections.synchronizedList` | per-category and per-language article lists |
+| `ArrayBlockingQueue` | dynamic distribution of write tasks |
+| `CyclicBarrier` | synchronization between stages |
+
+## Performance
+
+Measured on an Intel Core i7-12700H (14 cores) under WSL Ubuntu with Java 17, on the full dataset of ~17,700 articles. Each value is the average of 3 runs.
+
+```mermaid
+xychart-beta
+    title "Execution time vs. number of threads"
+    x-axis "Threads" [1, 2, 3, 4, 6, 8]
+    y-axis "Time (s)" 0 --> 14
+    line [13.561, 8.962, 7.475, 6.633, 6.440, 5.514]
+```
+
+| Threads | 1 | 2 | 3 | 4 | 6 | 8 |
+|---|---|---|---|---|---|---|
+| Avg. time (s) | 13.561 | 8.962 | 7.475 | 6.633 | 6.440 | 5.514 |
+| Speedup | 1.00 | 1.51 | 1.81 | 2.04 | 2.11 | **2.46** |
+| Efficiency | 1.00 | 0.76 | 0.61 | 0.51 | 0.35 | 0.31 |
+
+**Analysis**
+
+- From 1 to 4 threads, the execution time halves. Beyond 4 threads the curve flattens, so 4 threads give the best balance between speed and efficiency.
+- The speedup stays below linear for three reasons:
+  - **Amdahl's law.** JSON parsing happens sequentially before the workers start.
+  - **Contention** on the shared concurrent structures and waiting at the barriers.
+  - **Long output tasks.** Writing `keywords_count.txt` and `all_articles.txt` takes the longest, so other threads can run out of work while these finish.
+
+## Getting started
+
+Requires **Java 17+**. The Jackson jars are bundled in `src/libs`.
+
+```bash
+git clone https://github.com/alex1bondoc/NewsOrganizer.git
+cd NewsOrganizer/src
+make run                # 4 threads on the bundled sample dataset
+make run THREADS=8      # choose the number of threads
+make run ARGS="<threads> <articles.txt> <inputs.txt>"   # custom input
+make clean
+```
+
+### Input format
+
+- `articles.txt`: the first line holds the number of JSON files, followed by one path per line (relative to `articles.txt`).
+- `inputs.txt`: the paths to the language list, the category list and the linking-words list.
+- Each JSON file holds an array of articles with `uuid`, `title`, `author`, `url`, `published`, `language`, `text` and `categories`.
+
+`src/input/sample/` contains a small synthetic dataset (80 articles, including duplicates) so the project runs right after cloning.
+
+### Output
+
+| File | Content |
+|---|---|
+| `<Category>.txt`, `<language>.txt` | sorted UUIDs of the articles in each group |
+| `all_articles.txt` | all unique articles, newest first |
+| `keywords_count.txt` | English keyword frequencies, sorted by count |
+| `reports.txt` | summary statistics |
+
+Example `reports.txt` on the full dataset:
+
+```
+duplicates_found - 1175
+unique_articles - 16571
+best_author - VNExplorer 326
+top_language - english 10112
+top_category - Human_Interest 6422
+most_recent_article - 2025-08-14T09:13:43Z https://icma.az/ru/news/apple-hochet-prevratit-siri-v-skrepysha-iz-windows-972335
+top_keyword_en - one 4475
+```
 
 ## Project structure
 
 ```
 src/
-├── Tema1.java       # entry point: reads the input and starts the threads
-├── MyThread.java    # logic run by each thread (the 4 stages)
-├── Article.java     # article model
+├── NewsOrganizer.java   # entry point: parses input, starts the workers
+├── Worker.java          # the four processing stages run by each thread
+├── Article.java         # article model (sorted by publish date, then UUID)
 ├── Makefile
-├── libs/            # Jackson (core, databind, annotations) for JSON parsing
-├── input/           # sample input files
-└── output/          # sample generated files
+├── libs/                # Jackson core, databind, annotations
+└── input/               # config files and a sample dataset
 ```
-
-## Build and run
-
-Requires Java 17+. The Jackson libraries are included in `src/libs`.
-
-```bash
-cd src
-make build
-make run ARGS="<num_threads> <articles.txt> <inputs.txt>"
-```
-
-Example:
-
-```bash
-make run ARGS="4 input/articles.txt input/inputs.txt"
-```
-
-- `articles.txt` – the first line holds the number of files, followed by the paths to the JSON article files.
-- `inputs.txt` – the first line holds the number of auxiliary files, followed by the paths to the language list, the category list and the list of linking words (which are ignored when counting words).
-
-`make clean` removes the generated `.class` and `.txt` files.
-
-## Output files
-
-- one file per category (e.g. `Politics.txt`, `Sport.txt`) and per language (e.g. `english.txt`, `romanian.txt`)
-- `all_articles.txt` – all unique articles
-- `keywords_count.txt` – keyword frequencies
-- `reports.txt` – statistics: number of articles, duplicates, authors, most popular category, language and keyword, most recent article
-
-## Parallelization strategy
-
-Execution runs in four stages, each separated by a barrier (`CyclicBarrier`), so no thread moves to the next stage until every thread has finished the current one.
-
-1. **Reading and duplicate detection.** The input files are read in `main`, and the articles are stored as `ArrayNode`s in a list. The list is split evenly across threads using the classic formula `start = id * (n / P)`, `end = (id + 1) * (n / P)`. Each thread records the UUIDs it encounters in concurrent hash maps and sets to identify duplicate articles.
-2. **Article processing.** Threads iterate over the UUIDs, skip duplicates and process the rest. Authors, categories, languages and words are tracked in `ConcurrentHashMap`s (with `AtomicInteger` counters) and in concurrent sets.
-3. **Report precomputation.** The four main parts of `reports.txt` (article counts, authors, most popular category, most popular language) are split evenly across threads. The most recent article and the total article count are computed from per-thread partial results.
-4. **Writing the output.** Write tasks are placed in an `ArrayBlockingQueue`, from which threads pull work dynamically, since some files take much longer than others. The first task is `keywords_count.txt` (always the most expensive), followed immediately by `reports.txt`, which uses the sorted keywords to find the most popular word.
-
-### Synchronized structures used
-
-| Structure | Used for |
-|---|---|
-| `ConcurrentHashMap` | authors, languages, categories, words |
-| `Collections.synchronizedList` | articles |
-| concurrent sets | languages, categories, words, authors |
-| `AtomicInteger` | occurrence counts for authors and words |
-| `ArrayBlockingQueue` | distributing the write tasks |
-| `CyclicBarrier` | synchronization between stages |
-
-The solution aims to balance work as evenly as possible, especially during writing, where `all_articles.txt` and `keywords_count.txt` are much larger than the others and must run in parallel with the rest. It is thread-safe and produces consistent results on the same input.
-
-## Performance analysis
-
-Test environment: Intel Core i7-12700H (2.30 GHz, 14 cores), WSL Ubuntu, Java 17.0.17. Dataset: the largest available test set.
-
-Execution times (seconds):
-
-| Run | 1 thread | 2 | 3 | 4 | 6 | 8 |
-|---|---|---|---|---|---|---|
-| R1 | 13.215 | 8.306 | 6.618 | 7.044 | 6.621 | 5.285 |
-| R2 | 13.604 | 8.628 | 8.312 | 6.961 | 6.039 | 5.477 |
-| R3 | 13.866 | 9.953 | 7.495 | 5.894 | 6.661 | 5.781 |
-| **Average** | **13.561** | **8.962** | **7.475** | **6.633** | **6.440** | **5.514** |
-
-Speedup and efficiency (from average times):
-
-| Threads | 1 | 2 | 3 | 4 | 6 | 8 |
-|---|---|---|---|---|---|---|
-| Speedup S(P) | 1.000 | 1.513 | 1.814 | 2.044 | 2.105 | 2.459 |
-| Efficiency E(P) | 1.000 | 0.756 | 0.605 | 0.511 | 0.351 | 0.307 |
-
-### Observed behavior
-
-- **1–4 threads:** a sharp drop in execution time, from about 13.5 s to about 6.6 s. In this range, adding cores directly speeds up the work.
-- **4–8 threads:** the curve flattens. 8 threads give the lowest time (under 6 s) and the highest speedup (~2.46x), but the gain over 4 threads is small compared to the initial jump.
-
-### Causes of the limitations
-
-The maximum speedup of ~2.46x, far from 8x, comes from:
-
-- **Synchronization overhead.** Access to shared structures (`ConcurrentHashMap`, synchronized lists) and waiting at the `CyclicBarrier` take time; with more threads, contention on the same resources grows.
-- **Dataset size.** Processing a single article is very fast, so coordination cost becomes comparable to the actual work.
-- **Large output files.** Total time depends heavily on writing `keywords_count.txt` and `all_articles.txt`; other workers may run out of tasks while these finish.
-
-### Optimal thread count
-
-**4 threads** give the best balance between resources used and speed. Although 8 threads are slightly faster, per-thread efficiency drops significantly beyond 4.
